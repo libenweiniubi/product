@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calb.es.mapper.SysDictDataMapper">
+
+    <resultMap type="com.calb.es.model.SysDictData" id="SysDictDataResult">
+        <result property="dictCode"    column="dict_code"    />
+        <result property="dictSort"    column="dict_sort"    />
+        <result property="dictLabel"    column="dict_label"    />
+        <result property="dictValue"    column="dict_value"    />
+        <result property="dictType"    column="dict_type"    />
+        <result property="cssClass"    column="css_class"    />
+        <result property="listClass"    column="list_class"    />
+        <result property="isDefault"    column="is_default"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysDictDataVo">
+        select dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, update_by, update_time, remark from sys_dict_data
+    </sql>
+
+    <select id="selectSysDictDataList" parameterType="com.calb.es.model.SysDictData" resultMap="SysDictDataResult">
+        <include refid="selectSysDictDataVo"/>
+        <where>
+            <if test="dictSort != null "> and dict_sort = #{dictSort}</if>
+            <if test="dictLabel != null  and dictLabel != ''"> and dict_label = #{dictLabel}</if>
+            <if test="dictValue != null  and dictValue != ''"> and dict_value = #{dictValue}</if>
+            <if test="dictType != null  and dictType != ''"> and dict_type = #{dictType}</if>
+            <if test="cssClass != null  and cssClass != ''"> and css_class = #{cssClass}</if>
+            <if test="listClass != null  and listClass != ''"> and list_class = #{listClass}</if>
+            <if test="isDefault != null  and isDefault != ''"> and is_default = #{isDefault}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectSysDictDataByDictCode" parameterType="Long" resultMap="SysDictDataResult">
+        <include refid="selectSysDictDataVo"/>
+        where dict_code = #{dictCode}
+    </select>
+
+    <insert id="insertSysDictData" parameterType="com.calb.es.model.SysDictData">
+        insert into sys_dict_data
+        values
+        (
+            #{dictCode}, #{dictSort}, #{dictLabel}, #{dictValue}, #{dictType},
+            #{cssClass}, #{listClass}, #{isDefault}, #{status}, #{createBy},
+            #{createTime}, #{updateBy}, #{updateTime}, #{remark}
+        );
+    </insert>
+
+    <update id="updateSysDictData" parameterType="com.calb.es.model.SysDictData">
+        update sys_dict_data
+        <set>
+            dict_label = #{dictData.dictLabel},
+            create_by = #{dictData.createBy},
+            dict_sort = #{dictData.dictSort},
+            dict_value = #{dictData.dictValue},
+            dict_type = #{dictData.dictType},
+            css_class = #{dictData.cssClass},
+            list_class = #{dictData.listClass},
+            is_default = #{dictData.isDefault},
+            status = #{dictData.status},
+            create_time = #{dictData.createTime},
+            update_by = #{dictData.updateBy},
+            update_time = #{dictData.updateTime},
+            remark = #{dictData.remark},
+        </set>
+        where dict_code = #{dictCode}
+    </update>
+
+    <delete id="deleteSysDictDataByDictCode" parameterType="Long">
+        delete from sys_dict_data where dict_code = #{dictCode}
+    </delete>
+
+    <delete id="deleteSysDictDataByDictCodes" parameterType="String">
+        delete from sys_dict_data where dict_code in
+        <foreach item="dictCode" collection="array" open="(" separator="," close=")">
+            #{dictCode}
+        </foreach>
+    </delete>
+</mapper>

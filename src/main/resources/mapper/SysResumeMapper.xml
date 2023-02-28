@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calb.es.mapper.SysResumeMapper">
+
+    <resultMap type="com.calb.es.model.SysResume" id="SysResumeResult">
+        <result property="resumeId"    column="resume_id"    />
+        <result property="name"    column="name"    />
+        <result property="post"    column="post"    />
+        <result property="phone"    column="phone"    />
+        <result property="sex"    column="sex"    />
+        <result property="idcard"    column="idcard"    />
+        <result property="source"    column="source"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="resumePath"    column="resume_path"    />
+    </resultMap>
+
+    <sql id="selectSysResumeVo">
+        select resume_id, name, post, phone, sex, idcard, source, create_by, create_time, update_by, update_time, remark, resume_path from sys_resume
+    </sql>
+
+    <select id="selectSysResumeList" parameterType="com.calb.es.model.SysResume" resultMap="SysResumeResult">
+        <include refid="selectSysResumeVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="post != null  and post != ''"> and post = #{post}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="idcard != null  and idcard != ''"> and idcard = #{idcard}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="resumePath != null  and resumePath != ''"> and resume_path = #{resumePath}</if>
+        </where>
+    </select>
+
+    <select id="selectSysResumeByResumeId" parameterType="Long" resultMap="SysResumeResult">
+        <include refid="selectSysResumeVo"/>
+        where resume_id = #{resumeId}
+    </select>
+
+    <insert id="insertSysResume" parameterType="com.calb.es.model.SysResume" useGeneratedKeys="true" keyProperty="resumeId">
+        insert into sys_resume
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="post != null">post,</if>
+            <if test="phone != null">phone,</if>
+            <if test="sex != null">sex,</if>
+            <if test="idcard != null">idcard,</if>
+            <if test="source != null">source,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="resumePath != null">resume_path,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="post != null">#{post},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="idcard != null">#{idcard},</if>
+            <if test="source != null">#{source},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="resumePath != null">#{resumePath},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysResume" parameterType="com.calb.es.model.SysResume">
+        update sys_resume
+        <set>
+            name = #{sysResume.name},
+            post = #{sysResume.post},
+            phone = #{sysResume.phone},
+            sex = #{sysResume.sex},
+            idcard = #{sysResume.idcard},
+            source = #{sysResume.source},
+            create_by = #{sysResume.createBy},
+            create_time = #{sysResume.createTime},
+            update_by = #{sysResume.updateBy},
+            update_time = #{sysResume.updateTime},
+            remark = #{sysResume.remark},
+            resume_path = #{sysResume.resumePath}
+        </set>
+        where resume_id = #{resumeId}
+    </update>
+
+    <delete id="deleteSysResumeByResumeId" parameterType="Long">
+        delete from sys_resume where resume_id = #{resumeId}
+    </delete>
+
+    <delete id="deleteSysResumeByResumeIds" parameterType="String">
+        delete from sys_resume where resume_id in
+        <foreach item="resumeId" collection="array" open="(" separator="," close=")">
+            #{resumeId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calb.es.mapper.SysReminderMapper">
+
+    <resultMap type="com.calb.es.model.SysReminder" id="SysReminderResult">
+        <result property="reminderId"    column="reminder_id"    />
+        <result property="reminderFlag"    column="reminder_flag"    />
+        <result property="reminderType"    column="reminder_type"    />
+        <result property="reminderDays"    column="reminder_days"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <sql id="selectSysReminderVo">
+        select
+        reminder_id, reminder_flag, reminder_type, reminder_days,
+        create_time, update_by, update_time, create_by
+        from sys_reminder
+    </sql>
+
+    <select id="selectSysReminderList" parameterType="com.calb.es.model.SysReminder" resultMap="SysReminderResult">
+        <include refid="selectSysReminderVo"/>
+        <where>
+            <if test="reminderFlag != null  and reminderFlag != ''"> and reminder_flag = #{reminderFlag}</if>
+            <if test="reminderType != null  and reminderType != ''"> and reminder_type = #{reminderType}</if>
+            <if test="reminderDays != null  and reminderDays != ''"> and reminder_days = #{reminderDays}</if>
+        </where>
+    </select>
+
+    <select id="selectSysReminderByReminderId" parameterType="Long" resultMap="SysReminderResult">
+        <include refid="selectSysReminderVo"/>
+        where reminder_id = #{reminderId}
+    </select>
+
+    <insert id="insertSysReminder" parameterType="com.calb.es.model.SysReminder" useGeneratedKeys="true" keyProperty="reminderId">
+        insert into sys_reminder
+        (
+            <if test="reminderFlag != null">reminder_flag,</if>
+            <if test="reminderType != null">reminder_type,</if>
+            <if test="reminderDays != null">reminder_days,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by</if>
+        )
+        values
+        (
+            <if test="reminderFlag != null">#{reminderFlag},</if>
+            <if test="reminderType != null">#{reminderType},</if>
+            <if test="reminderDays != null">#{reminderDays},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy}</if>
+        )
+    </insert>
+
+    <update id="updateSysReminder" parameterType="com.calb.es.model.SysReminder">
+        update sys_reminder
+        <set>
+            <if test="reminderFlag != null">reminder_flag = #{reminderFlag},</if>
+            <if test="reminderType != null">reminder_type = #{reminderType},</if>
+            <if test="reminderDays != null">reminder_days = #{reminderDays},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+        </set>
+        where reminder_id = #{reminderId}
+    </update>
+
+    <delete id="deleteSysReminderByReminderId" parameterType="Long">
+        delete from sys_reminder where reminder_id = #{reminderId}
+    </delete>
+</mapper>

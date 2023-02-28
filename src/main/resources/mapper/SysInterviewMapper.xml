@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calb.es.mapper.SysInterviewMapper">
+
+    <resultMap type="com.calb.es.model.SysInterview" id="SysInterviewResult">
+        <id     property="interviewId"     column="interview_id"     />
+        <result property="post"   column="post"   />
+        <result property="interviewer"   column="interviewer"   />
+        <result property="date"   column="date"   />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <!--限制sql语句的范围-->
+    <sql id="selectInterviewVo">
+        select
+        in.interview_id,
+        in.post,
+        in.interviewer,
+        in.date,
+        in.create_by,
+        in.create_time
+        from sys_interview in
+    </sql>
+
+    <select id="selectInterviewList" parameterType="com.calb.es.model.SysInterview" resultMap="SysInterviewResult">
+        <include refid="selectInterviewVo"/>
+        <if test="interviewId != null and interviewId != 0">
+            AND interview_id = #{interviewId}
+        </if>
+        <if test="post != null and post != 0">
+            AND post = #{post}
+        </if>
+        <if test="interviewer != null and interviewer != ''">
+            AND interviewer = #{interviewer}
+        </if>
+        <if test="date != null and date != ''">
+            AND date = #{date}
+        </if>
+    </select>
+
+
+
+    <insert id="insertInterview" parameterType="com.calb.es.model.SysInterview">
+        insert into sys_interview
+        (
+        <if test="interviewId != null and interviewId != 0">interview_id,</if>
+        <if test="post != null and post != 0">post,</if>
+        <if test="interviewer != null and interviewer != ''">interviewer,</if>
+        <if test="date != null and date != ''">date,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        create_time
+        )values(
+        <if test="interviewId != null and interviewId != 0">#{interviewId},</if>
+        <if test="post != null and post != 0">#{post},</if>
+        <if test="interviewer != null and interviewer != ''">#{interviewer},</if>
+        <if test="date != null and date != ''">#{date},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="updateInterview" parameterType="com.calb.es.model.SysInterview">
+        update sys_interview
+        <set>
+            <if test="interviewId != null and interviewId != 0">interview_id =#{interviewId},</if>
+            <if test="post != null and post != 0">post =#{post},</if>
+            <if test="interviewer != null and interviewer != ''">interviewer =#{interviewer},</if>
+            <if test="date != null and date != ''">date =#{date},</if>
+            <if test="createBy != null and createBy != ''">create_by =#{createBy},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where interview_id = #{interviewId}
+    </update>
+
+
+    <delete id="deleteInterviewById" parameterType="Long">
+        delete  from sys_interview where interview_id = #{interviewId}
+    </delete>
+
+
+</mapper>

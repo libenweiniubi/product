@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/pms?serverTimezone=Asia/Shanghai
+    #useSSL=false&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1 FROM DUAL
+        # 从库数据源
+
+server:
+  port: 8083
+
+
+#mybatis-plus:
+#  configuration:
+##    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    type-handlers-package: com.example.test.mqtt
+#logging:
+#  level:
+#    com:
+#      example:
+#        test:
+#          mapper: debug
+
+uploadPath: E:\upload
+
+
+# MyBatis
+mybatis:
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+
+#shiro:
+#  shiro.sessionManager.sessionIdCookieEnabled=true
+#  shiro.sessionManager.sessionIdUrlRewritingEnabled=true
+#  shiro.unauthorizedUrl=/unauthorizedurl
+#  shiro.web.enabled=true
+#  shiro.successUrl=/index
+#  shiro.loginUrl=/login

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calb.es.mapper.SysRecruitMapper">
+
+    <resultMap type="com.calb.es.model.SysRecruit" id="SysRecruitResult">
+        <id     property="recruitId"    column="recruit_id"    />
+        <result property="recruitDept"    column="recruit_dept"    />
+        <result property="recruitPost"    column="recruit_post"    />
+        <result property="worktime"    column="worktime"    />
+        <result property="salary"    column="salary"    />
+        <result property="education"    column="education"    />
+        <result property="workplace"    column="workplace"    />
+        <result property="number"    column="number"    />
+        <result property="demander"    column="demander"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="jobDescription"    column="job_description"    />
+        <result property="jobRequirements"    column="job_requirements"    />
+    </resultMap>
+
+    <sql id="selectSysRecruitVo">
+        select
+        recruit_id,
+        recruit_dept,
+        recruit_post,
+        worktime,
+        salary,
+        education,
+        workplace,
+        number,
+        demander,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        remark,
+        job_description,
+        job_requirements
+        from sys_recruit
+    </sql>
+
+    <select id="selectSysRecruitList" parameterType="com.calb.es.model.SysRecruit" resultMap="SysRecruitResult">
+        <include refid="selectSysRecruitVo"/>
+            <if test="recruitDept != null  and recruitDept != ''">
+                and recruit_dept = #{recruitDept}
+            </if>
+            <if test="recruitPost != null  and recruitPost != ''">
+                and recruit_post = #{recruitPost}
+            </if>
+            <if test="worktime != null  and worktime != ''">
+                and worktime = #{worktime}
+            </if>
+<!--                 salary = #{salary}-->
+            <if test="education != null  and education != ''">
+                and education = #{education}
+            </if>
+            <if test="workplace != null  and workplace != ''">
+                and workplace = #{workplace}
+            </if>
+<!--                 number = #{number}-->
+            <if test="demander != null  and demander != ''">
+                and demander = #{demander}
+            </if>
+            <if test="jobDescription != null  and jobDescription != ''">
+                and job_description = #{jobDescription}
+            </if>
+            <if test="jobRequirements != null  and jobRequirements != ''">
+                and job_requirements = #{jobRequirements}
+            </if>
+            order by recruit_id
+    </select>
+
+    <select id="selectSysRecruitByRecruitId" parameterType="Long" resultMap="SysRecruitResult">
+        <include refid="selectSysRecruitVo"/>
+        where recruit_id = #{recruitId}
+    </select>
+
+    <insert id="insertSysRecruit" parameterType="com.calb.es.model.SysRecruit" useGeneratedKeys="true" keyProperty="recruitId">
+        insert into sys_recruit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recruitDept != null">recruit_dept,</if>
+            <if test="recruitPost != null">recruit_post,</if>
+            <if test="worktime != null">worktime,</if>
+            <if test="salary != null">salary,</if>
+            <if test="education != null">education,</if>
+            <if test="workplace != null">workplace,</if>
+            <if test="number != null">number,</if>
+            <if test="demander != null">demander,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="jobDescription != null">job_description,</if>
+            <if test="jobRequirements != null">job_requirements,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recruitDept != null">#{recruitDept},</if>
+            <if test="recruitPost != null">#{recruitPost},</if>
+            <if test="worktime != null">#{worktime},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="education != null">#{education},</if>
+            <if test="workplace != null">#{workplace},</if>
+            <if test="number != null">#{number},</if>
+            <if test="demander != null">#{demander},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="jobDescription != null">#{jobDescription},</if>
+            <if test="jobRequirements != null">#{jobRequirements},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysRecruit" parameterType="com.calb.es.model.SysRecruit">
+        update sys_recruit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recruitDept != null">recruit_dept = #{recruitDept},</if>
+            <if test="recruitPost != null">recruit_post = #{recruitPost},</if>
+            <if test="worktime != null">worktime = #{worktime},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="education != null">education = #{education},</if>
+            <if test="workplace != null">workplace = #{workplace},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="demander != null">demander = #{demander},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="jobDescription != null">job_description = #{jobDescription},</if>
+            <if test="jobRequirements != null">job_requirements = #{jobRequirements},</if>
+        </trim>
+        where recruit_id = #{recruitId}
+    </update>
+
+    <delete id="deleteSysRecruitByRecruitId" parameterType="Long">
+        delete from sys_recruit where recruit_id = #{recruitId}
+    </delete>
+
+    <delete id="deleteSysRecruitByRecruitIds" parameterType="String">
+        delete from sys_recruit where recruit_id in
+        <foreach item="recruitId" collection="array" open="(" separator="," close=")">
+            #{recruitId}
+        </foreach>
+    </delete>
+
+</mapper>

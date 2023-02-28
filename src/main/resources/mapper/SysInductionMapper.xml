@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.calb.es.mapper.SysInductionMapper">
+
+    <resultMap type="com.calb.es.model.SysInduction" id="SysInductionResult">
+        <id     property="inductionId"     column="induction_id"     />
+        <result property="name"   column="name"   />
+        <result property="sex"   column="sex"   />
+        <result property="dept"     column="dept"      />
+        <result property="post"      column="post"       />
+        <result property="phone"      column="phone"       />
+        <result property="email"      column="email"       />
+        <result property="status"     column="status"      />
+        <result property="hiredate"    column="hiredate"    />
+        <result property="education"    column="education"    />
+        <result property="degree"    column="degree"    />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <!--限制sql语句的范围-->
+    <sql id="selectInductionVo">
+        select
+        i.induction_id,
+        i.name,
+        i.sex,
+        i.dept,
+        i.post,
+        i.phone,
+        i.email,
+        i.status,
+        i.hiredate,
+        i.education,
+        i.degree,
+        i.create_by,
+        i.create_time
+        from sys_induction i
+    </sql>
+
+    <select id="selectInductionByStatus" parameterType="com.calb.es.model.SysInduction" resultMap="SysInductionResult">
+        <include refid="selectInductionVo"/>
+        <if test="inductionId != null and inductionId != 0">
+            AND induction_id = #{inductionId}
+        </if>
+        <if test="name != null and name != 0">
+            AND name = #{name}
+        </if>
+        <if test="sex != null and sex != ''">
+            AND sex = #{sex}
+        </if>
+        <if test="dept != null and dept != ''">
+            AND dept = #{dept}
+        </if>
+        <if test="post != null and post != ''">
+            AND post = #{post}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone = #{phone}
+        </if>
+        <if test="email != null and email != ''">
+            AND email = #{email}
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        <if test="hiredate != null and hiredate != ''">
+            AND hiredate = #{hiredate}
+        </if>
+        <if test="education != null and education != ''">
+            AND dept = #{dept}
+        </if>
+        <if test="degree != null and degree != ''">
+            AND degree = #{degree}
+        </if>
+
+    </select>
+
+
+    <insert id="insertInduction" parameterType="com.calb.es.model.SysInduction">
+        insert into sys_induction
+        (
+        <if test="inductionId != null and inductionId != 0">induction_id,</if>
+        <if test="name != null and name != ''">name,</if>
+        <if test="sex != null and sex != 0">sex,</if>
+        <if test="dept != null and dept != ''">dept,</if>
+        <if test="post != null and post != ''">post,</if>
+        <if test="phone != null and phone != ''">phone,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="status != null">status,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        create_time)
+        values
+        (
+        <if test="inductionId != null and inductionId != 0">#{inductionId},</if>
+        <if test="name != null and name != 0">#{name},</if>
+        <if test="sex != null and sex != ''">#{sex},</if>
+        <if test="dept != null and dept != ''">#{dept},</if>
+        <if test="post != null and post != ''">#{post},</if>
+        <if test="phone != null and phone != ''">#{phone},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="status != null">#{status},</if>
+        <if test="hiredate != null and hiredate != ''">#{hiredate},</if>
+        <if test="education != null and education != ''">#{education},</if>
+        <if test="degree != null and degree != ''">#{degree},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="updateInduction" parameterType="com.calb.es.model.SysInduction">
+        update sys_induction
+        <set>
+            <if test="inductionId != null and inductionId != 0">induction_id = #{inductionId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="sex != null and sex != 0">sex =#{sex},</if>
+            <if test="dept != null and dept != ''">dept =#{dept},</if>
+            <if test="post != null and post != ''">post =#{post},</if>
+            <if test="phone != null and phone != ''">phone =#{phone},</if>
+            <if test="email != null and email != ''">email =#{email},</if>
+            <if test="status != null">status =#{status},</if>
+            <if test="hiredate != null and hiredate != ''">hiredate =#{hiredate},</if>
+            <if test="education != null and education != ''">education =#{education},</if>
+            <if test="degree != null and degree != ''">degree =#{degree},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where induction_id = #{inductionId}
+    </update>
+
+
+    <delete id="deleteInductionById" parameterType="Long">
+        delete sys_induction where induction_id = #{inductionId}
+    </delete>
+
+</mapper>
